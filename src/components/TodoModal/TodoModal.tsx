@@ -17,7 +17,7 @@ export const TodoModal: React.FC<TodoModalProps> = ({
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    if (selectionTodo === null) {
+    if (!selectionTodo) {
       return;
     }
 
@@ -28,6 +28,10 @@ export const TodoModal: React.FC<TodoModalProps> = ({
       .then(setUser)
       .finally(() => setModalLoader(false));
   }, [selectionTodo]);
+
+  if (!selectionTodo) {
+    return null;
+  }
 
   return (
     <div className="modal is-active" data-cy="modal">
@@ -42,7 +46,7 @@ export const TodoModal: React.FC<TodoModalProps> = ({
               className="modal-card-title has-text-weight-medium"
               data-cy="modal-header"
             >
-              {`Todo #${selectionTodo?.id}`}
+              {`Todo #${selectionTodo.id}`}
             </div>
             <button
               type="button"
@@ -54,7 +58,7 @@ export const TodoModal: React.FC<TodoModalProps> = ({
 
           <div className="modal-card-body">
             <p className="block" data-cy="modal-title">
-              {selectionTodo?.title}
+              {selectionTodo.title}
             </p>
 
             <p className="block" data-cy="modal-user">

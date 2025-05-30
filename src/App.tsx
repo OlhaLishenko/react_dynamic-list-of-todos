@@ -44,15 +44,19 @@ export const App: React.FC = () => {
   }, []);
 
   const makeQuery = (appliedQuery: string) => {
-    // console.log(appliedQuery);
+    todosAPI
+      .getTodos()
+      .then(fetchedTodos => {
+        const filteredTodos = fetchedTodos.filter(todo =>
+          todo.title
+            .replaceAll(' ', '')
+            .toLowerCase()
+            .startsWith(appliedQuery.replaceAll(' ', '').toLowerCase())
+        );
 
-    setTodos(prevTodos =>
-      prevTodos.filter(todo =>
-        todo.title
-          .replaceAll(' ', '')
-          .startsWith(appliedQuery.replaceAll(' ', '')),
-      ),
-    );
+        return filteredTodos;
+      })
+      .then(setTodos);
   };
 
   const getTodoId = (todo: Todo) => {
